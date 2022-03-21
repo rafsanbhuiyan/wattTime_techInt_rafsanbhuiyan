@@ -66,5 +66,5 @@ mapping = entso_df.merge(join_one_df, left_on=["unit_capacity","plant_primary_fu
 print(mapping.info())
 
 #Output mapping.csv file
-mapping.to_csv("/Users/rafsanbhuiyan/Documents/GitHub/wattTime_techInt_rafsanbhuiyan/data/mapping.csv", index=False)
+mapping.to_csv("/Users/rafsanbhuiyan/Documents/GitHub/wattTime_techInt_rafsanbhuiyan/mapping.csv", index=False)
 
