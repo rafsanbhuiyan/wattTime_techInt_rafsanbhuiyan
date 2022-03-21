@@ -1,6 +1,4 @@
 import pandas as pd
-from IPython.display import display
-import numpy as np
 
 #DATA INGESTION
 
@@ -9,15 +7,10 @@ gppd_df = pd.read_csv("/Users/rafsanbhuiyan/Documents/GitHub/wattTime_techInt_ra
 platts_df = pd.read_csv("/Users/rafsanbhuiyan/Documents/GitHub/wattTime_techInt_rafsanbhuiyan/data/platts.csv")
 entso_df = pd.read_csv("/Users/rafsanbhuiyan/Documents/GitHub/wattTime_techInt_rafsanbhuiyan/data/entso.csv")
 
-#print(gppd_df.info())
-#print(platts_df.info())
-#print(entso_df.info())
-
 #DATA TRANSFORMATION
 
-#create a function to transform string values of column in a dataframe into upper case
+#Create a function to transform string values of column in a dataframe into upper case
 #First paramenter is the Dataframe name and the second parameter is the column name
-
 def df_col_toupper(df, col):
 
     #Using apply function with paramenter str.upper to transform string values into upper case
@@ -30,14 +23,10 @@ df_col_toupper(gppd_df,"plant_name")
 df_col_toupper(gppd_df,"country_long")
 df_col_toupper(entso_df,"country")
 
-# print(gppd_df.info())
-# print(platts_df.info())
-# print(entso_df.info())
-
-
-#Renaming columns names in platts_df
+#Create dictionary for the column names  and the new names
 col_dict = {'unit_fuel' : 'plant_primary_fuel', 'country' : 'country_long'}
 
+#Rename column names using the rename function
 platts_df.rename(columns=col_dict, inplace=True)
 
 #Creating funciton to add plant_first_name column to dataframe mentioned in the parameter
@@ -55,18 +44,19 @@ add_first_name_col(entso_df)
 #JOINING gppd_df and platts_df together on name, country and fuel type
 join_one_df = gppd_df.merge(platts_df, left_on = ["plant_first_name", "country_long", "plant_primary_fuel"], right_on =["plant_first_name", "country_long", "plant_primary_fuel"], how = "inner")
 
-print(join_one_df.info())
-
 #TRANSFORMING entso_df
 
 #Using String Manipulation to eliminate country abbreviateions in perenthesis in country column
 #split function implementation, n defines the numbers of splits
 #expand = True allows the split string to separate columns
+
+#Split into two strings
 s1 = entso_df["country"].str.split(" ", n=2, expand=True)
 
+#Extract the first string and assign to country
 entso_df["country"] = s1[0]
 
-#renaming columns
+#renaming columns in entso_df dataframe
 col_dict2 = {"unit_fuel" : "plant_primary_fuel", "country" : "country_long"}
 entso_df.rename(columns=col_dict2, inplace=True)
 
